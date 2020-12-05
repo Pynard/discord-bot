@@ -29,10 +29,10 @@ async def refresh_flags():
 class Command:
 
     async def flag(message):
-        'flag = <flag>'
+        'flag <flag>'
         cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
 
-        flag_regex = re.search(f'{bot_token}flag\s*=\s*(.*)',message.content)
+        flag_regex = re.search(f'{bot_token}flag\s+(.*)',message.content)
 
         error = ''
         if flag_regex is not None and len(flag_regex.groups()) == 1:
