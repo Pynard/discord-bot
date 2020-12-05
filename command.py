@@ -21,7 +21,9 @@ def write_flag(content):
 async def refresh_flags():
     flag_chan = client.get_channel(channels['flags'])
     await flag_chan.purge()
-    msg = '\n'.join([ '{:<20} --> {}'.format(*item) for item in read_flag().items() ])
+    content = read_flag() 
+    padding = max([ len(elt) for elt in content.keys() ])+4
+    msg = '\n'.join([ '{:<{}} --> {}'.format(chall,padding,flag) for chall,flag in content.items() ])
     await flag_chan.send(f'```{msg}```')
 
 class Command:
@@ -29,14 +31,18 @@ class Command:
     async def flag(message):
         'flag = <flag>'
         cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+
         flag_regex = re.search(f'{bot_token}flag\s*=\s*(.*)',message.content)
 
         error = ''
         if flag_regex is not None and len(flag_regex.groups()) == 1:
             if 'chall' in message.channel.name:
                 flag = flag_regex.group(1)
-                content = read_flag()
-                content[message.channel.name] = flag
+                try:
+                    content = read_flag()
+                except FileNotFoundError:
+                    content = {}
+                content[message.channel.name.replace('chall_','')] = flag
                 write_flag(content)
                 await refresh_flags()
 
@@ -54,24 +60,30 @@ class Command:
         await message.channel.send(msg)
 
     async def enc_b64(message):
-        'enc_b64 = <message>'
-        msg_toenc = re.search(f'{bot_token}enc_b64\s*=\s*(.*)',message.content)
-        if len(msg_toenc.groups()) == 1:
-            msg = base64.b64encode(msg_toenc.group(1))
-            await message.channel.send(msg);
+        'enc_b64 <message>'
+        cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+        error = ''
+
+        msg_toenc = re.search(f'{bot_token}enc_b64\s+(.*)',message.content)
+        if msg_toenc and len(msg_toenc.groups()) == 1:
+            msg = base64.b64encode(msg_toenc.group(1).encode()).decode()
+            await message.channel.send(f'{message.author.mention} {msg}');
         else:
-            error = f"L'encodage en b64, C'est comme ça que ça marche :\n```{help_cmd(enc_b64.__name__)}```"
+            error = f"L'encodage en b64, C'est comme ça que ça marche :\n```{help_cmd(cmd)}```"
         if error:
             await message.channel.send(f'блят {message.author.mention} ! '+error)
 
     async def dec_b64(message):
-        'dec_b64 = <message>'
-        msg_toenc = re.search(f'{bot_token}dec_b64\s*=\s*(.*)',message.content)
-        if len(msg_toenc.groups()) == 1:
-            msg = base64.b64encode(msg_toenc.group(1))
-            await message.channel.send(msg);
+        'dec_b64 <message>'
+        cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+        error = ''
+
+        msg_todec = re.search(f'{bot_token}dec_b64\s+(.*)',message.content)
+        if msg_todec and len(msg_todec.groups()) == 1:
+            msg = base64.b64decode(msg_todec.group(1).encode()).decode()
+            await message.channel.send(f'{message.author.mention} {msg}');
         else:
-            error = f"Le décodage en b64, C'est comme ça que ça marche :\n```{help_cmd(dec_b64.__name__)}```"
+            error = f"Le décodage en b64, C'est comme ça que ça marche :\n```{help_cmd(cmd)}```"
         if error:
             await message.channel.send(f'блят {message.author.mention} ! '+error)
 
