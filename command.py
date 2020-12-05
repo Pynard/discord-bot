@@ -19,8 +19,8 @@ def write_flag(content):
 async def refresh_flags():
     flag_chan = client.get_channel(channels['flags'])
     await flag_chan.purge()
-    msg = '\n'.join([ f'{chall} --> {flag}' for chall,flag in read_flag().items() ])
-    await flag_chan.send(msg)
+    msg = '\n'.join([ '{:<20} --> {}'.format(*item) for item in read_flag().items() ])
+    await flag_chan.send(f'```{msg}```')
     
 
 class Command:
@@ -54,8 +54,8 @@ class Command:
 
     async def list_cmd(message):
         'list_cmd'
-        msg = '__Voila la liste des commandes camarade !__\n\n'
-        msg += '\n'.join([ '**{}** :  {}'.format(cmd,help_cmd(cmd)) for cmd in Command.__dict__.keys() if '__' not in cmd ])
-        msg += '\n'
+        msg = '__Voila la liste des commandes camarade !__\n```'
+        msg += '\n'.join([ '{:<15} :     {}'.format(cmd,help_cmd(cmd)) for cmd in Command.__dict__.keys() if '__' not in cmd ])
+        msg += '\n```'
         await message.channel.send(f'{message.author.mention} {msg}')
 
