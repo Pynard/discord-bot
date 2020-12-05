@@ -57,5 +57,5 @@ class Command:
         msg = '__Voila la liste des commandes camarade !__\n\n'
         msg += '\n'.join([ '**{}** :  {}'.format(cmd,help_cmd(cmd)) for cmd in Command.__dict__.keys() if '__' not in cmd ])
         msg += '\n'
-        await message.channel.send(f'{message.author.mention} {msg})
+        await message.channel.send(f'{message.author.mention} {msg}')
 
