@@ -1,18 +1,7 @@
-# bot.py
-import os
 import re
 
-import discord
-from dotenv import load_dotenv
-
 from config import *
-from command import * 
-
-
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-
-client = discord.Client()
+from command import Command 
 
 @client.event
 async def on_ready():
@@ -20,23 +9,24 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(f"{member.mention} Heil {member.name} ! Willkommen im reich <{emoji['hitler']}>")
+    general = client.get_channel(channels['general'])
+    await general.send(f"{member.mention} Heil {member.name} ! Willkommen im reich <{emoji['hitler']}>")
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
+    if message.content[0] != bot_token:
+        return
+    if message.content == bot_token:
+        await Command.list_cmd(message)
+        return
 
-    if re.match(f'{bot_token}flag',message.content):
-        await add_flag(message)
-    elif re.match(f'{bot_token}test_emoji',message.content):
-        await test_emoji(message)
+    commands = [ elt for elt in Command.__dict__.keys() if '__' not in elt ] 
+    for cmd in commands:
+        if re.match(f'{bot_token}{cmd}',message.content):
+            await Command.__dict__[cmd](message)
+            return
 
 client.run(TOKEN)
-
-
-#if 'lsorignet' in str(message.author.name):
-#    await message.channel.send(f"lsorignet n'a pas le droit d'utiliser cette commande <{emoji['hitler']}>")
-#    return
 
