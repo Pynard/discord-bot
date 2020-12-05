@@ -1,31 +1,18 @@
 # bot.py
 import os
+import re
 
 import discord
 from dotenv import load_dotenv
 
-import re
+from config import *
+from command import * 
 
-bot_token = '&'
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = discord.Client()
-
-emoji = {   'hitler' : ':hitler:784774352838983691' }
-
-async def add_flag(message):
-    flag_regex = re.search(f'{bot_token}flag\s*=\s*(.*)',message.content)
-
-    if flag_regex is not None and len(flag_regex.groups()) == 1:
-        flag = flag_regex.group(1)
-        print(flag)
-
-    else:
-        error = f"Essaye pas de m'enculer !\nC'est comme ça que ça marche : ```{bot_token}flag = <flag>```"
-        await message.channel.send(f'{message.author.mention} '+error)
-
 
 @client.event
 async def on_ready():
@@ -43,6 +30,8 @@ async def on_message(message):
 
     if re.match(f'{bot_token}flag',message.content):
         await add_flag(message)
+    elif re.match(f'{bot_token}test_emoji',message.content):
+        await test_emoji(message)
 
 client.run(TOKEN)
 
