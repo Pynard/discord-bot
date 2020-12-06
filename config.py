@@ -11,12 +11,21 @@ channels =  {   'general' : 784498062303035404,
 
 emoji = {   'hitler' : ':hitler:784774352838983691',
             'stalin' : ':stalin:784814367698976788',
-            'darmanin' : ':darmanin:784847811732439040'
+            'darmanin' : ':darmanin:784847811732439040',
+            'macron' : ':macron:784920050544017429'
         }
 
+time_dict = { 'd':24*3600, 'h':3600, 'm':60, 's':1 }
 
-
-load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+number_dict = { '1': ':one:',
+                '2': ':two:',
+                '3': ':three:',
+                '4': ':four:',
+                '5': ':five:',
+                '6': ':six:',
+                '7': ':seven:',
+                '8': ':eight:',
+                '9': ':nine:',
+                '0': ':zero:' }
 
 client = discord.Client()

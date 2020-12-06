@@ -1,11 +1,15 @@
 import re
 
 from config import *
-from command import Command 
+from command import Command, update_timers
+
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
+    client.loop.create_task(update_timers())
 
 @client.event
 async def on_member_join(member):
@@ -27,6 +31,7 @@ async def on_message(message):
         if re.match(f'{bot_token}{cmd}',message.content):
             await Command.__dict__[cmd](message)
             return
+
 
 client.run(TOKEN)
 
