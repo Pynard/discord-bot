@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from config import *
 
 def help_cmd(cmd):
-    return f"{bot_token}{Command.__dict__[cmd].__doc__}"
+    return f"{g_bot_token}{Command.__dict__[cmd].__doc__}"
 
 async def update_flags():
     try:
@@ -41,7 +41,7 @@ async def update_timers():
 
                 else:
                     text = str((finish-datetime.now())).split('.')[0]
-                    text = ' **:** '.join([ ''.join([ number_dict[digit] for digit in elt ]) for elt in text.split(':') ])
+                    text = ' **:** '.join([ ''.join([ g_big_numbers[digit] for digit in elt ]) for elt in text.split(':') ])
 
                     chan = client.get_channel(channel_id)
                     msg = await chan.fetch_message(msg_id)
@@ -64,9 +64,9 @@ class Command:
 
     async def flag(message):
         'flag <flag>'
-        cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+        cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
 
-        flag_regex = re.search(f'{bot_token}flag\s+(.*)',message.content)
+        flag_regex = re.search(f'{g_bot_token}flag\s+(.*)',message.content)
 
         error = ''
         if flag_regex is not None and len(flag_regex.groups()) == 1:
@@ -80,10 +80,10 @@ class Command:
                 pickle.dump(content,open('data/flags','wb'))
                 await update_flags()
                 await message.channel.send(f"GG ! Enfin un qui ne fait pas partie de ceux qui ne sont rien")
-                await message.channel.send(f"<{emoji['macron']}>") 
+                await message.channel.send(f"<{g_emoji['macron']}>") 
 
             else:
-                error = f"блят ! Le channel **{message.channel.name}** n'est pas un channel associé a un challenge... <{emoji['stalin']}>"
+                error = f"блят ! Le channel **{message.channel.name}** n'est pas un channel associé a un challenge... <{g_emoji['stalin']}>"
         else:
             error = f"Essayes pas de m'enculer !\nC'est comme ça que ça marche :\n```{help_cmd(cmd)}```"
 
@@ -92,15 +92,15 @@ class Command:
 
     async def test_emoji(message):
         'test_emoji'
-        msg = ' '.join([ f'<{elt}>' for elt in emoji.values() ])
+        msg = ' '.join([ f'<{elt}>' for elt in g_emoji.values() ])
         await message.channel.send(msg)
 
     async def enc_b64(message):
         'enc_b64 <message>'
-        cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+        cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
         error = ''
 
-        msg_toenc = re.search(f'{bot_token}enc_b64\s+(.*)',message.content)
+        msg_toenc = re.search(f'{g_bot_token}enc_b64\s+(.*)',message.content)
         if msg_toenc and len(msg_toenc.groups()) == 1:
             msg = base64.b64encode(msg_toenc.group(1).encode()).decode()
             await message.channel.send(f'{message.author.mention} {msg}');
@@ -111,10 +111,10 @@ class Command:
 
     async def dec_b64(message):
         'dec_b64 <message>'
-        cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+        cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
         error = ''
 
-        msg_todec = re.search(f'{bot_token}dec_b64\s+(.*)',message.content)
+        msg_todec = re.search(f'{g_bot_token}dec_b64\s+(.*)',message.content)
         if msg_todec and len(msg_todec.groups()) == 1:
             msg = base64.b64decode(msg_todec.group(1).encode()).decode()
             await message.channel.send(f'{message.author.mention} {msg}');
@@ -132,10 +132,10 @@ class Command:
 
     async def timer(message):
         'timer "<name>" [#d] [#h] [#m] [#s]'
-        cmd = re.search(f'{bot_token}(\S*)',message.content).group(1)
+        cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
         error = ''
 
-        parse_regex = re.search(f'{bot_token}timer\s+\"(.+)\"\s*(\d+d)?\s*(\d+h)?\s*(\d+m)?\s*(\d+s)?',message.content)
+        parse_regex = re.search(f'{g_bot_token}timer\s+\"(.+)\"\s*(\d+d)?\s*(\d+h)?\s*(\d+m)?\s*(\d+s)?',message.content)
         if not parse_regex:
             await message.channel.send(f'блят {message.author.mention} ! Ptin lis la doc bordel... :\n```{help_cmd(cmd)}```'+error)
             return
@@ -143,10 +143,10 @@ class Command:
         params = parse_regex.groups()
         name = params[0]
         time_params = params[1:]
-        duration = sum([ int(elt[:-1])*time_dict[elt[-1]] for elt in time_params if elt])
+        duration = sum([ int(elt[:-1])*g_time_convert[elt[-1]] for elt in time_params if elt])
 
         if not name:
-            error = f"Donne un nom à ton timer...le pauvre...<{emoji['darmanin']}>"
+            error = f"Donne un nom à ton timer...le pauvre...<{g_emoji['darmanin']}>"
         elif duration == 0:
             error = f"Pas de timer de moins de 0 seconde ! Et si vous pensez le contraire nous ne sommes pas dans le même camp madame !"
         if error:

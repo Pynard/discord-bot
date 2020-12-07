@@ -14,21 +14,21 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     general = client.get_channel(channels['general'])
-    await general.send(f"{member.mention} Heil {member.name} ! Willkommen im reich <{emoji['hitler']}>")
+    await general.send(f"{member.mention} Heil {member.name} ! Willkommen im reich <{g_emoji['hitler']}>")
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-    if not message.content or message.content[0] != bot_token:
+    if not message.content or message.content[0] != g_bot_token:
         return
-    if message.content == bot_token:
+    if message.content == g_bot_token:
         await Command.list_cmd(message)
         return
 
     commands = [ elt for elt in Command.__dict__.keys() if '__' not in elt ] 
     for cmd in commands:
-        if re.match(f'{bot_token}{cmd}',message.content):
+        if re.match(f'{g_bot_token}{cmd}',message.content):
             await Command.__dict__[cmd](message)
             return
 
