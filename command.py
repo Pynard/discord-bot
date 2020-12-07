@@ -16,7 +16,7 @@ async def update_flags():
     except FileNotFoundError:
         return
 
-    padding = max([ len(elt) for elt in content.keys() ])+4
+    padding = max([ len(elt) for elt in content.keys() ])+1
     msg = '\n'.join([ '{:<{}} --> {}'.format(chall,padding,flag) for chall,flag in content.items() ])
 
     flag_chan = client.get_channel(channels['flags'])

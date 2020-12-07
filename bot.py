@@ -20,7 +20,7 @@ async def on_member_join(member):
 async def on_message(message):
     if message.author == client.user:
         return
-    if message.content[0] != bot_token:
+    if not message.content or message.content[0] != bot_token:
         return
     if message.content == bot_token:
         await Command.list_cmd(message)
