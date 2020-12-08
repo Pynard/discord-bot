@@ -4,7 +4,7 @@ import pickle
 import base64
 import asyncio
 from datetime import datetime, timedelta
-
+from pypo import *
 from config import *
 
 def help_cmd(cmd):
@@ -80,7 +80,7 @@ class Command:
                 pickle.dump(content,open('data/flags','wb'))
                 await update_flags()
                 await message.channel.send(f"GG ! Enfin un qui ne fait pas partie de ceux qui ne sont rien")
-                await message.channel.send(f"<{g_emoji['macron']}>") 
+                await message.channel.send(f"<{g_emoji['macron']}>")
 
             else:
                 error = f"блят ! Le channel **{message.channel.name}** n'est pas un channel associé a un challenge... <{g_emoji['stalin']}>"
@@ -93,6 +93,11 @@ class Command:
     async def test_emoji(message):
         'test_emoji'
         msg = ' '.join([ f'<{elt}>' for elt in g_emoji.values() ])
+        await message.channel.send(msg)
+
+    async def pipo(message):
+        'pipo'
+        msg = play_pipo()
         await message.channel.send(msg)
 
     async def enc_b64(message):
@@ -152,7 +157,7 @@ class Command:
         if error:
             await message.channel.send(f'блят {message.author.mention} ! '+error)
             return
-        
+
         finish = datetime.now()+timedelta(seconds=duration)
         msg = f'**{name}**'
         await message.channel.send(f'{msg}')
@@ -163,10 +168,8 @@ class Command:
         except FileNotFoundError:
             timers = {}
 
-        timers[name] = [message.channel.id,msg_id,finish] 
+        timers[name] = [message.channel.id,msg_id,finish]
         pickle.dump(timers,open('data/timer','wb'))
-        
 
-        
 
 
