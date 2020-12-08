@@ -1,7 +1,8 @@
 import re
 
-from config import *
-from command import Command, update_timers
+from global_var import *
+from command import Command
+from command.timer import update_timers
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')

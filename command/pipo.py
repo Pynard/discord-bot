@@ -30,3 +30,7 @@ def play_pipo():
         pipo=pipo+" "+random.choice(pipod[i])
     pipo = harmonize(pipo).strip()
     return (pipo)
+
+async def cmd(message):
+    msg = play_pipo()
+    await message.channel.send(msg)
