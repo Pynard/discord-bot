@@ -15,7 +15,7 @@ g_emoji = {   'hitler' : ':hitler:784774352838983691',
             'macron' : ':macron:784920050544017429'
         }
 
-g_time = { 'd':24*3600, 'h':3600, 'm':60, 's':1 }
+g_time_convert = { 'd':24*3600, 'h':3600, 'm':60, 's':1 }
 
 g_big_numbers = {   '1': ':one:',
                     '2': ':two:',
