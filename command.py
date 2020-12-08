@@ -19,7 +19,7 @@ async def update_flags():
     padding = max([ len(elt) for elt in content.keys() ])+1
     msg = '\n'.join([ '{:<{}} --> {}'.format(chall,padding,flag) for chall,flag in content.items() ])
 
-    flag_chan = client.get_channel(channels['flags'])
+    flag_chan = client.get_channel(g_channels['flags'])
     await flag_chan.purge()
     await flag_chan.send(f'```{msg}```')
 
@@ -90,8 +90,8 @@ class Command:
         if error:
             await message.channel.send(f'{message.author.mention} '+error)
 
-    async def test_emoji(message):
-        'test_emoji'
+    async def emoji(message):
+        'emoji'
         msg = ' '.join([ f'<{elt}>' for elt in g_emoji.values() ])
         await message.channel.send(msg)
 
@@ -100,31 +100,18 @@ class Command:
         msg = play_pipo()
         await message.channel.send(msg)
 
-    async def enc_b64(message):
-        'enc_b64 <message>'
+    async def b64(message):
+        'b64 <enc/dec> <message>'
         cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
         error = ''
 
-        msg_toenc = re.search(f'{g_bot_token}enc_b64\s+(.*)',message.content)
-        if msg_toenc and len(msg_toenc.groups()) == 1:
-            msg = base64.b64encode(msg_toenc.group(1).encode()).decode()
+        msg_input = re.search(f'{g_bot_token}b64\s+(enc|dec)\s+(.*)',message.content)
+        if msg_input:
+            compute = base64.b64encode if msg_input.group(1) == 'enc' else base64.b64decode
+            msg = compute(msg_input.group(2).encode()).decode()
             await message.channel.send(f'{message.author.mention} {msg}');
         else:
-            error = f"L'encodage en b64, C'est comme ça que ça marche :\n```{help_cmd(cmd)}```"
-        if error:
-            await message.channel.send(f'блят {message.author.mention} ! '+error)
-
-    async def dec_b64(message):
-        'dec_b64 <message>'
-        cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
-        error = ''
-
-        msg_todec = re.search(f'{g_bot_token}dec_b64\s+(.*)',message.content)
-        if msg_todec and len(msg_todec.groups()) == 1:
-            msg = base64.b64decode(msg_todec.group(1).encode()).decode()
-            await message.channel.send(f'{message.author.mention} {msg}');
-        else:
-            error = f"Le décodage en b64, C'est comme ça que ça marche :\n```{help_cmd(cmd)}```"
+            error = f"L'encodage et le décodage en b64, C'est comme ça que ça marche :\n```{help_cmd(cmd)}```"
         if error:
             await message.channel.send(f'блят {message.author.mention} ! '+error)
 

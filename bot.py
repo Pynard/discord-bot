@@ -13,7 +13,7 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    general = client.get_channel(channels['general'])
+    general = client.get_channel(g_channels['general'])
     await general.send(f"{member.mention} Heil {member.name} ! Willkommen im reich <{g_emoji['hitler']}>")
 
 @client.event
