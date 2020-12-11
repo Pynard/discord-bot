@@ -3,6 +3,7 @@ import re
 import pickle
 
 from global_var import *
+from .decorator import *
 
 async def update_flags():
     try:
@@ -17,7 +18,9 @@ async def update_flags():
     await flag_chan.purge()
     await flag_chan.send(f'```{msg}```')
 
+@error
 async def cmd(message):
+    'flag <flag>'
     flag_regex = re.search(f'{g_bot_token}flag\s+(.*)',message.content)
 
     if flag_regex is not None and len(flag_regex.groups()) == 1:

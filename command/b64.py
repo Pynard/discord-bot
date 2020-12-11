@@ -3,8 +3,11 @@ import re
 import base64
 
 from global_var import *
+from .decorator import *
 
+@error
 async def cmd(message):
+    'b64 <enc/dec> <message>'
     msg_input = re.search(f'{g_bot_token}b64\s+(enc|dec)\s+(.*)',message.content)
     if msg_input:
         compute = base64.b64encode if msg_input.group(1) == 'enc' else base64.b64decode

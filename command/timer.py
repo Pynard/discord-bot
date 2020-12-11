@@ -5,6 +5,7 @@ import asyncio
 from datetime import datetime, timedelta
 
 from global_var import *
+from .decorator import *
 
 async def update_timers():
     await client.wait_until_ready()
@@ -43,7 +44,9 @@ async def update_timers():
         await asyncio.sleep(1)
 
 
+@error
 async def cmd(message):
+    'timer "<name>" [#d] [#h] [#m] [#s]'
     cmd = re.search(f'{g_bot_token}(\S*)',message.content).group(1)
     error = ''
 

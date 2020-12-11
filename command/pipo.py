@@ -1,5 +1,7 @@
 import random
 
+from .decorator import *
+
 #TODO Make dictionnary
 pipod=[]
 pipod.append(["Face à","Relativement à","Pour optimiser","Pour accentuer","Afin de maîtriser","Au moyen d#","Depuis l'émergence d#","Pour challenger", "Pour défier","Pour résoudre","En termes de redynamisation d#","Concernant l'implémentation d#","À travers","En s'orientant vers","En termes de process, concernant","En rebondissant sur","Pour intégrer","Une fois internalisée","Pour externaliser","Dans la lignée d#","En synergie avec","Là où les benchmarks désignent","Au cœur d#","En auditant","Une fois evaluée","Partout où domine","Pour réagir à","En jouant","Parallèlement à","Malgré","En réponse à","En réaction à","Répliquant à","En phase de montée en charge d#", "En réponse à","En phase de montée en charge d#", "Grâce à", "Perpendiculairement à", "Indépendamment d#", "Corrélativement à", "Tangentiellement à", "Concomitamment à","Par l'implémentation d#"])
@@ -31,6 +33,8 @@ def play_pipo():
     pipo = harmonize(pipo).strip()
     return (pipo)
 
+@error
 async def cmd(message):
+    'pipo'
     msg = play_pipo()
     await message.channel.send(msg)
