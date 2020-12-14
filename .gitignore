@@ -118,3 +118,4 @@ dmypy.json
 
 discord_token.txt
 data/*
+!data/.keep
