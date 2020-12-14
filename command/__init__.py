@@ -10,6 +10,7 @@ from . import flag
 from . import b64
 from . import emoji
 from . import pipo
+from . import dump_ctf
 
 class Command:
 
@@ -35,6 +36,10 @@ class Command:
     async def b64(message):
         'b64 <enc/dec> <message>'
         return await b64.cmd(message)
+
+    async def dump(message):
+        'dump <ctf>'
+        return await dump_ctf.cmd(message)
 
     async def timer(message):
         'timer "<name>" [#d] [#h] [#m] [#s]'

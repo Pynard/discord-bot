@@ -11,7 +11,7 @@ async def update_timers():
     await client.wait_until_ready()
     while not client.is_closed():
         try:
-            timers = pickle.load(open('data/timer','rb'))
+            timers = pickle.load(open(g_data_dir+'/timer','rb'))
         except FileNotFoundError:
             pass
 
@@ -39,7 +39,7 @@ async def update_timers():
                     await msg.edit(content="**FINI !!**")
 
                     del timers[name]
-                    pickle.dump(timers,open('data/timer','wb'))
+                    pickle.dump(timers,open(g_data_dir+'/timer','wb'))
 
         await asyncio.sleep(1)
 
@@ -70,9 +70,9 @@ async def cmd(message):
     msg_id = (await message.channel.send('...')).id
 
     try:
-        timers = pickle.load(open('data/timer','rb'))
+        timers = pickle.load(open(g_data_dir+'/timer','rb'))
     except FileNotFoundError:
         timers = {}
 
     timers[name] = [message.channel.id,msg_id,finish]
-    pickle.dump(timers,open('data/timer','wb'))
+    pickle.dump(timers,open(g_data_dir+'/timer','wb'))

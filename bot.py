@@ -1,8 +1,9 @@
 import re
-
+import os
 from global_var import *
 from command import Command
 from command.timer import update_timers
+
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -11,6 +12,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     client.loop.create_task(update_timers())
+
 
 @client.event
 async def on_member_join(member):
@@ -27,7 +29,7 @@ async def on_message(message):
         await Command.list_cmd(message)
         return
 
-    commands = [ elt for elt in Command.__dict__.keys() if '__' not in elt ] 
+    commands = [ elt for elt in Command.__dict__.keys() if '__' not in elt ]
     for cmd in commands:
         if re.match(f'{g_bot_token}{cmd}',message.content):
             await Command.__dict__[cmd](message)

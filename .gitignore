@@ -116,6 +116,7 @@ dmypy.json
 
 ####################################################
 
-discord_token.txt
+discord_token.*
 data/*
 !data/.keep
+!data/dico_pipo

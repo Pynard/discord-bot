@@ -4,9 +4,10 @@ import discord
 from dotenv import load_dotenv
 
 g_bot_token = '&'
+g_data_dir = "data"
 
-g_channels =  {   'general' : 784498062303035404, 
-                'flags'   : 786963650404941824 
+g_channels =  {   'general' : 784498062303035404,
+                'flags'   : 786963650404941824
             }
 
 g_emoji = {   'hitler' : ':hitler:784774352838983691',

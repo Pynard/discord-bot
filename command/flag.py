@@ -7,7 +7,7 @@ from .decorator import *
 
 async def update_flags():
     try:
-        content = pickle.load(open('data/flags','rb'))
+        content = pickle.load(open(g_data_dir+'/flags','rb'))
     except FileNotFoundError:
         return
 
@@ -27,11 +27,11 @@ async def cmd(message):
         if 'chall' in message.channel.name:
             flag = flag_regex.group(1)
             try:
-                content = pickle.load(open('data/flags','rb'))
+                content = pickle.load(open(g_data_dir+'/flags','rb'))
             except FileNotFoundError:
                 content = {}
             content[message.channel.name.replace('chall_','')] = flag
-            pickle.dump(content,open('data/flags','wb'))
+            pickle.dump(content,open(g_data_dir+'/flags','wb'))
             await update_flags()
             await message.channel.send(f"GG ! Enfin un qui ne fait pas partie de ceux qui ne sont rien")
             await message.channel.send(f"<{g_emoji['macron']}>")
