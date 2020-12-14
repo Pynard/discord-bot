@@ -1,5 +1,5 @@
 <society_name> est une société dans <society_fields> résolument tournée vers le développement du potentiel de ses consultants.<br>Cette société dynamique, est spécialisée dans le développement des systèmes connectés, le développement applicatif et la Cyber sécurité.
 Je suis recruteuse tech freelance et j'accompagne un de mes partenaires à Toulouse.
-<society_name> vient en France recruter des talents en <society_fieds>.<br>Des recruteurs et entreprises comme <society_name#>, <society_name#> et <society_name#> viennent en mission de recrutement à Bordeaux, Toulouse, Marseille et Paris du 17 au 23 novembre.
+<society_name> vient en France recruter des talents en <society_fields>.<br>Des recruteurs et entreprises comme <society_name#>, <society_name#> et <society_name#> viennent en mission de recrutement à Bordeaux, Toulouse, Marseille et Paris du 17 au 23 novembre.
 <society_name> est une start-up RH spécialisée dans l'IT.
 En tant que chargée de recrutement chez <society_name>, je recherche un collaborateur disposant de vos compétences pour rejoindre nos équipes.

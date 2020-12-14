@@ -41,8 +41,10 @@ def bullshit_it(template):
         else:
             field_key=field_name.replace("#","")
             selected = random.choice(grammar[field_key])
-            template = template.replace("<"+field_name+">",selected)
+            template = template.replace("<"+field_key+">",selected)
+            template = template.replace("<"+field_key+"#>",selected)
         field_regex = re.search(f'\<(\w+)\#?\>',template)
+        print (template)
     return template;
 
 
