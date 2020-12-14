@@ -1,0 +1,6 @@
+Bonjour <name>,
+Salut <name>,
+Salutation jeune entrepreneur,
+Bonjour,
+Hello <name>!
+Bonjour à vous !

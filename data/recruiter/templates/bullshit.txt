@@ -1,0 +1,7 @@
+<greetings>
+<bullshit_begin>
+<society_intro>
+<searching_for>
+<job_detail>
+<bullshit_end>
+<end>

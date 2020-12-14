@@ -11,6 +11,7 @@ from . import b64
 from . import emoji
 from . import pipo
 from . import dump_ctf
+from . import recruiter
 
 class Command:
 
@@ -32,6 +33,10 @@ class Command:
     async def pipo(message):
         'pipo'
         return await pipo.cmd(message)
+
+    async def recruiting(message):
+        'recruiting'
+        return await recruiter.cmd(message)
 
     async def b64(message):
         'b64 <enc/dec> <message>'

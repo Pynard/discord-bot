@@ -1,0 +1,5 @@
+<greetings>
+<society_intro>
+<searching_for>
+<job_detail>
+<end>

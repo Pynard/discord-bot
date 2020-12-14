@@ -1,0 +1,4 @@
+<greetings>
+<searching_for>
+<job_detail>
+<end>
