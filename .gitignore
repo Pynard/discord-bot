@@ -119,5 +119,4 @@ dmypy.json
 discord_token.*
 data/*
 !data/.keep
-!data/dico_pipo
-!data/recruiter
+dump/

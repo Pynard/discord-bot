@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 
 g_bot_token = '&'
 g_data_dir = "data"
+g_local_dir = "local"
+g_dump_dir = "dump"
 
 g_channels =  {   'general' : 784498062303035404,
                 'flags'   : 786963650404941824

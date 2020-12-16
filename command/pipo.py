@@ -7,8 +7,9 @@ from os.path import isfile, join
 
 
 def loadPipoDb(name):
-    dbPath = g_data_dir+"/dico_pipo/"+name
+    dbPath = g_local_dir+"/dico_pipo/"+name
     onlyfiles = [f for f in listdir(dbPath) if isfile(join(dbPath, f))]
+    onlyfiles.sort()
     db=[]
     for f in onlyfiles:
         text_file = open(dbPath+"/"+f, "r")
@@ -34,6 +35,7 @@ def harmonize(pipo):
 
 def play_pipo():
     pipo = ""
+    print(currentPipoDb)
     for pipodb in currentPipoDb:
         pipo=pipo+" "+random.choice(pipodb)
     pipo = harmonize(pipo)

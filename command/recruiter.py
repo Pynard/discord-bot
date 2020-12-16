@@ -7,7 +7,7 @@ from os import listdir
 from os.path import isfile, join
 
 def loadTemplateDb():
-    dbPath =  g_data_dir+"/recruiter/templates"
+    dbPath =  g_local_dir+"/recruiter/templates"
     onlyfiles = [f for f in listdir(dbPath) if isfile(join(dbPath, f))]
     db=[]
     for f in onlyfiles:
@@ -18,7 +18,7 @@ def loadTemplateDb():
     return db
 
 def loadGrammarDb():
-    dbPath =  g_data_dir+"/recruiter/grammar"
+    dbPath =  g_local_dir+"/recruiter/grammar"
     onlyfiles = [f for f in listdir(dbPath) if isfile(join(dbPath, f))]
     db={}
     for f in onlyfiles:
