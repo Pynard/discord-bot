@@ -118,5 +118,7 @@ dmypy.json
 
 discord_token.*
 data/*
-!data/.keep
+!data/ctf/.keep
 dump/
+
+

@@ -35,7 +35,6 @@ def harmonize(pipo):
 
 def play_pipo():
     pipo = ""
-    print(currentPipoDb)
     for pipodb in currentPipoDb:
         pipo=pipo+" "+random.choice(pipodb)
     pipo = harmonize(pipo)
