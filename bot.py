@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 
 from global_var import *
 from command import Command
-from command.timer import update_timers
+from command.timer import update_timers as timer_update_timers
+from command.ctf.utils import update_timers as ctf_update_timers
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -12,7 +13,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
-    client.loop.create_task(update_timers())
+    client.loop.create_task(timer_update_timers())
+    client.loop.create_task(ctf_update_timers())
 
 
 @client.event
