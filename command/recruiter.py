@@ -44,7 +44,6 @@ def bullshit_it(template):
             template = template.replace("<"+field_key+">",selected)
             template = template.replace("<"+field_key+"#>",selected)
         field_regex = re.search(f'\<(\w+)\#?\>',template)
-        print (template)
     return template;
 
 
