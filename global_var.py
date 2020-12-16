@@ -1,10 +1,12 @@
 
 import os
 import discord
-from dotenv import load_dotenv
 
 g_bot_token = '&'
 g_data_dir = "data"
+
+# Pynard guild
+g_guild = 784498061857521675
 
 g_channels =  {   'general' : 784498062303035404,
                 'flags'   : 786963650404941824

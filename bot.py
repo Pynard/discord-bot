@@ -1,9 +1,10 @@
 import re
 import os
+from dotenv import load_dotenv
+
 from global_var import *
 from command import Command
 from command.timer import update_timers
-
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -26,7 +27,7 @@ async def on_message(message):
     if not message.content or message.content[0] != g_bot_token:
         return
     if message.content == g_bot_token:
-        await Command.list_cmd(message)
+        await Command.cmd(message)
         return
 
     commands = [ elt for elt in Command.__dict__.keys() if '__' not in elt ]
@@ -34,7 +35,6 @@ async def on_message(message):
         if re.match(f'{g_bot_token}{cmd}',message.content):
             await Command.__dict__[cmd](message)
             return
-
 
 client.run(TOKEN)
 
