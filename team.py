@@ -14,12 +14,6 @@ async def update_team_info():
     day = 3600*24
     url = 'https://ctftime.org/api/v1/teams/141504/'
     while not client.is_closed():
-        try:
-            team_infos = pickle.load(open(g_data_dir+'/team_info','rb'))
-        except FileNotFoundError:
-            team_infos = None
-            pass
-
         # world total
         html_text = requests.get('https://ctftime.org/stats/', headers={'User-Agent': 'Mozilla/5.0'}).text
         soup = BeautifulSoup(html_text,'html.parser')
@@ -54,14 +48,9 @@ async def update_team_info():
         embed.add_field(name=':game_die: Points', value=rating_points, inline=True)
 
         # remove embed
-        if team_infos:
-            try:
-                await (await infos_channel.fetch_message(team_infos)).delete()
-            except discord.errors.NotFound:
-                pass
+        await infos_channel.purge()
 
         # send embed
-        team_infos = (await infos_channel.send(embed=embed)).id
+        await infos_channel.send(embed=embed)
 
-        pickle.dump(team_infos,open(g_data_dir+'/team_info','wb'))
         await asyncio.sleep(day)
