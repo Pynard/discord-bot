@@ -10,9 +10,8 @@ g_dump_dir = "dump"
 # Pynard guild
 g_guild = 784498061857521675
 
-g_channels =  {   'general' : 784498062303035404,
-                'flags'   : 786963650404941824
-            }
+g_channels =  { 'general' : 784498062303035404,
+                'infos'   : 786965162703192084 }
 
 g_emoji = {   'hitler' : ':hitler:784774352838983691',
             'stalin' : ':stalin:784814367698976788',

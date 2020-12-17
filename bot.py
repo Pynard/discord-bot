@@ -6,6 +6,7 @@ from global_var import *
 from command import Command
 from command.timer import update_timers as timer_update_timers
 from command.ctf.utils import update_timers as ctf_update_timers
+from team import update_team_info
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -15,6 +16,7 @@ async def on_ready():
     print(f'{client.user} has connected to Discord!')
     client.loop.create_task(timer_update_timers())
     client.loop.create_task(ctf_update_timers())
+    client.loop.create_task(update_team_info())
 
 
 @client.event
