@@ -5,7 +5,9 @@ Bot discord pour CTF et centralisation de flag de la **Pynard** team
 ## Liste des commandes
 
 **cmd**
+
 *Liste les commandes*
+
 ```
 &cmd
 ```
