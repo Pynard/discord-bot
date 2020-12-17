@@ -1,9 +1,11 @@
 
 import re
+import random
 
 from global_var import *
 from ..decorator import *
 from .utils import *
+from .gg import gg_dict
 
 @error
 @dev_only
@@ -70,7 +72,10 @@ async def flag(message):
     ctf_data['challenge'][message.channel.name]['flag'] = flag
     save_ctf(ctf_name,ctf_data)
 
-    await message.channel.send(f"GG ! Enfin un qui ne fait pas partie de ceux qui ne sont rien")
-    await message.channel.send(f"<{g_emoji['macron']}>")
+    
+    gg_msg = random.choice(gg_dict)
+    for elt in gg_msg:
+        await message.channel.send(elt)
+
     await update_flags(ctf_data)
 
