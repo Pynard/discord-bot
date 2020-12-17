@@ -7,6 +7,8 @@ g_data_dir = "data"
 g_local_dir = "local"
 g_dump_dir = "dump"
 
+g_devs = ['maxigir','lsorignet']
+
 # Pynard guild
 g_guild = 784498061857521675
 

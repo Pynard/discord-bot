@@ -6,6 +6,7 @@ from ..decorator import *
 from .utils import *
 
 @error
+@dev_only
 async def cmd(message):
     'ctf create <nom> https://ctftime.org/event/<event>\nctf dump <nom>'
 
