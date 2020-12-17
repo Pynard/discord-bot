@@ -14,6 +14,8 @@ async def update_team_info():
     day = 3600*24
     url = 'https://ctftime.org/api/v1/teams/141504/'
     while not client.is_closed():
+        ### TEAM STATS
+
         # world total
         html_text = requests.get('https://ctftime.org/stats/', headers={'User-Agent': 'Mozilla/5.0'}).text
         soup = BeautifulSoup(html_text,'html.parser')
@@ -51,6 +53,11 @@ async def update_team_info():
         await infos_channel.purge()
 
         # send embed
+        await infos_channel.send(embed=embed)
+
+        ### WRITEUPS
+        embed=discord.Embed(title="Pynard Writeups", url="https://github.com/Pynard/writeups", description="Le dépôt contenant les writeups de la **Pynard** team", color=0xffa200)
+        embed.set_thumbnail(url="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
         await infos_channel.send(embed=embed)
 
         await asyncio.sleep(day)
