@@ -77,7 +77,7 @@ def parse_url(url):
     finish_dt = datetime.strptime(event_dict['finish'].split('+')[0],'%Y-%m-%dT%H:%M:%S')+timedelta(hours=1)
 
     # create embed
-    embed = discord.Embed(title=title.upper(), url=ctf_url, description='```'+description+'```', color=0xffa200)
+    embed = discord.Embed(title=title.upper(), url=ctf_url, color=0xffa200)
     if icon:
         embed.set_thumbnail(url=icon)
     if ctf_format:
