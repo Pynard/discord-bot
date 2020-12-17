@@ -12,6 +12,7 @@ from . import emoji
 from . import pipo
 from . import dump_ctf
 from . import recruiter
+from . import say
 
 class Command:
 
@@ -60,3 +61,7 @@ class Command:
     async def timer(message):
         'Crée un countdown\ntimer "<name>" [#d] [#h] [#m] [#s]'
         return await timer.cmd(message)
+
+    async def say(message):
+        'Envoie un message en tant que bot\nsay <channel_id> <message>'
+        return await say.cmd(message)
