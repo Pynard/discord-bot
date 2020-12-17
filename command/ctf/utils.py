@@ -103,7 +103,7 @@ async def write_info(channel_id,url,ctf_data):
     ctf_data['start'] = start_dt
     ctf_data['finish'] = finish_dt
 
-    ctf_desc.add_field(name=':triangular_flag_on_post: Flags', value="No first blood yet !", inline=False)
+    ctf_desc.add_field(name=':triangular_flag_on_post: Flags', value="```No first blood yet !```", inline=False)
     ctf_data['flags'] = { 'id': (await channel.send(embed=ctf_desc)).id, 'embed': ctf_desc }
     ctf_data['timer'] = await write_timer(channel,'**Le CTF commence dans**',start_dt-datetime.now())
 
