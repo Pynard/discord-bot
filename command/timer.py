@@ -44,7 +44,7 @@ async def update_timers():
                     continue
 
                 else:
-                    text = timer_text(timer['finish']-datetime.now())
+                    text = timer_text(timer['finish']-datetime.now(),hms=timer['hms'])
                     chan = client.get_channel(timer['channel_id'])
                     msg = await chan.fetch_message(timer['msg_id'])
                     await msg.edit(content=text)
@@ -60,7 +60,7 @@ async def update_timers():
 
         await asyncio.sleep(1)
 
-async def write_timer(channel,name,duration):
+async def write_timer(channel,name,duration,hms=3):
     finish = datetime.now()+duration
     header_id = (await channel.send(f'{name}')).id
     msg_id = (await channel.send('...')).id
@@ -71,7 +71,7 @@ async def write_timer(channel,name,duration):
         timers = {}
 
     timer_id = len(timers)
-    current_timer = {'name': name, 'channel_id': channel.id, 'msg_id':msg_id, 'finish': finish }
+    current_timer = {'name': name, 'channel_id': channel.id, 'msg_id':msg_id, 'finish': finish, 'hms': hms }
     timers[timer_id] = current_timer
     pickle.dump(timers,open(g_data_dir+'/timer','wb'))
 

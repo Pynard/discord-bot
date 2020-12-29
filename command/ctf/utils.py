@@ -33,7 +33,7 @@ async def update_timers():
                     if is_started and not is_finished and 'commence' in msg_header.content:
                         await msg_header.delete()
                         await msg_content.delete()
-                        ctf_data['timer'] = await write_timer(infos_channel,'**Le CTF fini dans**',finish-datetime.now())
+                        ctf_data['timer'] = await write_timer(infos_channel,'**Le CTF fini dans**',finish-datetime.now(),hms=2)
                         save_ctf(f,ctf_data)
                     elif is_finished:
                         await msg_content.delete()
@@ -48,6 +48,7 @@ def parse_url(url):
     # get prizes by paring HTML page
     html_text = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}).text
     soup = BeautifulSoup(html_text, 'html.parser')
+    [ br.replace_with('\n') for br in soup.findAll('br') ]
     try:
         prizes = '\n'.join([ elt.text for elt in soup.find(name='div', attrs={'class':'well','id':''}).findAll('p') ])
     except:
@@ -72,40 +73,52 @@ def parse_url(url):
     ctf_url = event_dict['url']
     description = event_dict['description']
     icon = event_dict['logo']
+    weight = event_dict['weight']
 
     start_dt = datetime.strptime(event_dict['start'].split('+')[0],'%Y-%m-%dT%H:%M:%S')+timedelta(hours=1)      # UTC+1
     finish_dt = datetime.strptime(event_dict['finish'].split('+')[0],'%Y-%m-%dT%H:%M:%S')+timedelta(hours=1)
 
-    # create embed
     embed = discord.Embed(title=title.upper(), url=ctf_url, color=0xffa200)
+    infos = {}
     if icon:
         embed.set_thumbnail(url=icon)
     if ctf_format:
-        embed.add_field(name='Format', value=ctf_format, inline=False)
+        embed.add_field(name='Format', value=ctf_format, inline=True)
+    if weight:
+        embed.add_field(name='Weight', value=weight, inline=True)
+    if ctf_format or weight:
+        embed.add_field(name='** **', value='** **', inline=False)
+
     if start:
         embed.add_field(name='Start', value=start, inline=True)
     if start:
         embed.add_field(name='Finish', value=finish, inline=True)
     if duration:
-        embed.add_field(name='duration', value=duration, inline=True)
-    if description:
-        embed.add_field(name=':page_facing_up: Description', value='```'+description+'```', inline=False)
-    if prizes:
-        embed.add_field(name=':trophy: Prizes', value='```'+prizes+'```', inline=False)
+        embed.add_field(name='Duration', value=duration, inline=True)
 
-    return embed,start_dt,finish_dt
+    if description:
+        infos['** **\n** **:page_facing_up: **Description**'] = '```'+description+'```'
+    if prizes:
+        infos['** **\n** **:trophy: **Prizes**'] = '```'+prizes+'```'
+
+    return embed,infos,start_dt,finish_dt
     #return embed,datetime.now()+timedelta(minutes=1),datetime.now()+timedelta(minutes=2)
 
 async def write_info(channel_id,url,ctf_data):
     channel = client.get_channel(channel_id)
-    ctf_desc,start_dt,finish_dt = parse_url(url)
+    ctf_desc,infos,start_dt,finish_dt = parse_url(url)
 
     ctf_data['start'] = start_dt
     ctf_data['finish'] = finish_dt
 
-    ctf_desc.add_field(name=':triangular_flag_on_post: Flags', value="```No first blood yet !```", inline=False)
-    ctf_data['flags'] = { 'id': (await channel.send(embed=ctf_desc)).id, 'embed': ctf_desc }
-    ctf_data['timer'] = await write_timer(channel,'**Le CTF commence dans**',start_dt-datetime.now())
+    await channel.send(embed=ctf_desc)
+    for title,text in infos.items():
+        await channel.send(title)
+        await channel.send(text)
+
+    await channel.send('** **\n** **:triangular_flag_on_post: **Flags**')
+    ctf_data['flags'] = (await channel.send("```No first blood yet !```\n** **")).id
+    ctf_data['timer'] = await write_timer(channel,'**Le CTF commence dans**',start_dt-datetime.now(),hms=2)
 
 def category_exists(name):
     guild = client.guilds[0]
@@ -153,12 +166,8 @@ def save_ctf(name,content):
     
 async def update_flags(ctf_data):
     padding = max([ len(elt) for elt in ctf_data['challenge'].keys() ])+1
-    msg = '\n'.join([ '{:<{}} --> {}'.format(challenge_name,padding,data['flag']) for challenge_name,data in ctf_data['challenge'].items() ])
+    msg = '\n'.join([ '{:<{}} --> {}'.format(challenge_name,padding,data['flag']) for challenge_name,data in ctf_data['challenge'].items() if data['flag'] is not None])
 
-    embed = ctf_data['flags']['embed'] 
-    embed.remove_field(len(embed.fields)-1)
-    embed.add_field(name=':triangular_flag_on_post: Flags', value='```'+msg+'```', inline=False)
-
-    flag_msg = await (client.get_channel(ctf_data['infos'])).fetch_message(ctf_data['flags']['id'])
-    await flag_msg.edit(embed=embed)
+    flag_msg = await (client.get_channel(ctf_data['infos'])).fetch_message(ctf_data['flags'])
+    await flag_msg.edit(content=f'```{msg}```\n** **')
 
