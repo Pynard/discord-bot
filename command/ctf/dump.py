@@ -5,11 +5,8 @@ import os
 
 from global_var import *
 
-from .utils import *
-from .decorator import *
-
-
-
+from ..utils import *
+from ..decorator import *
 
 
 def get_category_from_name(guild, name):

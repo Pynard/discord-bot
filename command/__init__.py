@@ -10,7 +10,6 @@ from . import timer
 from . import b64
 from . import emoji
 from . import pipo
-from . import dump_ctf
 from . import recruiter
 from . import say
 
