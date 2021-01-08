@@ -64,27 +64,3 @@ def add_summary_to_index(dict,path):
         f.write("|["+key+"](challenges/"+key+".md)|`"+value+"`| \n")
     f.close()
 
-@error
-async def cmd(message):
-    'dump <ctf>'
-    msg_input = re.search(f'{g_bot_token}dump\s+(.*)',message.content)
-    if msg_input:
-        ctf =  msg_input.group(1)
-        ctf_cat = get_category_from_name(message.guild, ctf)
-        dic = {}
-        if ctf_cat != None:
-            path = g_dump_dir+"/"+ctf_cat.name.upper()
-            mkPath(path+"/challenges")
-            for channel in ctf_cat.channels:
-                if(channel.name != "général" and channel.name != "flags"):
-                    if channel.name == "infos":
-                       await dump_chall(channel, path)
-                    else:
-                        dic[channel.name] = await dump_chall(channel, path)
-
-            os.replace(path+"/challenges/infos.md", path+"/README.md")
-            add_summary_to_index(dic,path+"/README.md")
-        msg = "dump ok !"
-        await message.channel.send(f'{message.author.mention} {msg}');
-    else:
-        return "Le dumping d'un évenement CTF, C'est comme ça que ça marche"

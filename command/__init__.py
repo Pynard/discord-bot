@@ -54,10 +54,6 @@ class Command:
         'Encode/Decode en base64\nb64 <enc/dec> <message>'
         return await b64.cmd(message)
 
-    async def dump(message):
-        'dump <ctf>'
-        return await dump_ctf.cmd(message)
-
     async def timer(message):
         'Crée un countdown\ntimer "<name>" [#d] [#h] [#m] [#s]'
         return await timer.cmd(message)
