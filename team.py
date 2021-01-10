@@ -60,4 +60,23 @@ async def update_team_info():
         embed.set_thumbnail(url="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png")
         await infos_channel.send(embed=embed)
 
+        ### HISTORY
+        history = [ [ col.text for col in line.findAll('td') ][1:] for line in soup.find(name='table', attrs={'class':'table table-striped'}).findAll('tr')[1:] ]
+        ctf_href = [ line.find('a')['href'] for line in soup.find(name='table', attrs={'class':'table table-striped'}).findAll('tr')[1:] ]
+
+        embed = discord.Embed(title='History', color=0xffa200)
+        embed.add_field(name=':triangular_flag_on_post: CTF', value='** **', inline=True)
+        embed.add_field(name=':trophy: Rank', value='** **', inline=True)
+        embed.add_field(name=':game_die: Points', value='** **', inline=True)
+
+        for (rank,name,_,points),href in zip(history[::-1],ctf_href[::-1]):
+            html_text = requests.get('https://ctftime.org'+href, headers={'User-Agent': 'Mozilla/5.0'}).text
+            soup = BeautifulSoup(html_text,'html.parser')
+            total_teams = soup.findAll(name='td', attrs={'class':'place'})[-1].text
+            embed.add_field(name=name, value='** **', inline=True)
+            embed.add_field(name=f'{rank}/{total_teams}', value='** **', inline=True)
+            embed.add_field(name=points, value='** **', inline=True)
+
+        await infos_channel.send(embed=embed)
+
         await asyncio.sleep(day)
