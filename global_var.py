@@ -13,7 +13,11 @@ g_devs = ['maxigir','lsorignet']
 g_guild = 784498061857521675
 
 g_channels =  { 'general' : 784498062303035404,
-                'infos'   : 786965162703192084 }
+                'infos'   : 786965162703192084,
+                'voice'   : 784498062303035405,
+                'goulag'  : 797809790394695700 }
+
+g_roles = { 'goulag' : 785940566784999455 }
 
 g_emoji = {   'hitler' : ':hitler:784774352838983691',
             'stalin' : ':stalin:784814367698976788',

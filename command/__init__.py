@@ -12,6 +12,7 @@ from . import emoji
 from . import pipo
 from . import recruiter
 from . import say
+from . import goulag
 
 class Command:
 
@@ -60,3 +61,7 @@ class Command:
     async def say(message):
         'Envoie un message en tant que bot\nsay <channel_id> <message>'
         return await say.cmd(message)
+
+    async def goulag(message):
+        'Envoie ou libère un camarade au goulag\ngoulag add <username>\ngoulag free <username>'
+        return await goulag.cmd(message)
