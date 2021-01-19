@@ -10,6 +10,7 @@ from .decorator import *
 async def cmd(message):
     'goulag add/free <username>'
     msg_input = re.search(f'{g_bot_token}goulag\s+(add|free)\s+(\S+)',message.content)
+    immunity = ['maxigir','Lallemand']
 
     if msg_input:
         option,username = msg_input.groups()
@@ -21,20 +22,24 @@ async def cmd(message):
             return f"**{username}** n'a pas été trouvé sur le territoire de notre mère Russie"
 
         if option == 'add':
-            if 'maxigir' in username and message.author.name != 'maxigir':
+            if username in immunity and message.author.name != 'maxigir':
                 await message.channel.send(f"Camarade **{message.author.mention}** vous êtes accusé de haute trahison, envers notre leader et notre mère Russie !")
                 await message.channel.send(f"<{g_emoji['stalin']}>")
                 member = message.author
             return await add(member)
 
         elif option == 'free':
-            if 'maxigir' in username and message.author.name != 'maxigir':
-                await message.channel.send(f"Votre tentative de libérer notre leader est apréciable, mais le fait de penser que notre père puisse être incarcéré est un manque cruel de foi envers notre leader et est vu comme une trahison aux yeux du parti")
+            if username in immunity and message.author.name != 'maxigir':
+                if username == 'maxigir':
+                    await message.channel.send(f"Votre tentative de libérer notre leader est apréciable, mais le fait de penser que notre père puisse être incarcéré est un manque cruel de foi envers notre leader et est vu comme une trahison aux yeux du parti")
+                if username == 'Lallemand':
+                    await message.channel.send("Ceci est une faute grave qui sera sanctionnée")
                 await message.channel.send(f"<{g_emoji['stalin']}>")
                 member = message.author
                 return await add(member)
             if message.author.name in username and message.author.name != 'maxigir':
-                return "Personne ne peut échapper à un camp sibérien"
+                await message.channel.send("Personne ne peut échapper à un camp sibérien")
+                return
             return await free(member)
     else:
         return "Veuillez correctement remplir le formulaire de gestion du goulag camarade"
@@ -57,6 +62,7 @@ async def add(member):
 
     # Write member in goulag data
     goulag_content[member.name] = { 'roles' : [ elt.id for elt in member.roles if '@' not in elt.name],
+                                    'old_nick' : member.nick,
                                     'id' : zek_id }
     save_goulag_data(goulag_content)
 
@@ -81,7 +87,7 @@ async def free(member):
                 await member.remove_roles(goulag_role)
                 await member.add_roles(*[ client.guilds[0].get_role(elt) for elt in zek['roles'] ])
                 await member.move_to(client.get_channel(g_channels['voice']))
-                await member.edit(nick=None)
+                await member.edit(nick=zek['old_nick'])
             except:
                 pass
 
