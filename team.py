@@ -61,21 +61,24 @@ async def update_team_info():
         await infos_channel.send(embed=embed)
 
         ### HISTORY
-        history = [ [ col.text for col in line.findAll('td') ][1:] for line in soup.find(name='table', attrs={'class':'table table-striped'}).findAll('tr')[1:] ]
-        ctf_href = [ line.find('a')['href'] for line in soup.find(name='table', attrs={'class':'table table-striped'}).findAll('tr')[1:] ]
+        #history = [ [ col.text for col in line.findAll('td') ][1:] for line in soup.find(name='table', attrs={'class':'table table-striped'}).findAll('tr')[1:] ]
+        history = [ [ [ col.text for col in line.findAll('td') ][1:] for line in year ] for year in [ year.findAll('tr')[1:] for year in soup.findAll(name='table', attrs={'class':'table table-striped'}) if "PlaceEvent" in year.text ] ]
+        #ctf_href = [ line.find('a')['href'] for line in soup.find(name='table', attrs={'class':'table table-striped'}).findAll('tr')[1:] ]
+        ctf_href = [ [ line.find('a')['href'] for line in year ] for year in [ year.findAll('tr')[1:] for year in soup.findAll(name='table', attrs={'class':'table table-striped'}) if "PlaceEvent" in year.text ] ]
 
         embed = discord.Embed(title='History', color=0xffa200)
         embed.add_field(name=':triangular_flag_on_post: CTF', value='** **', inline=True)
         embed.add_field(name=':trophy: Rank', value='** **', inline=True)
         embed.add_field(name=':game_die: Points', value='** **', inline=True)
 
-        for (rank,name,_,points),href in zip(history[::-1],ctf_href[::-1]):
-            html_text = requests.get('https://ctftime.org'+href, headers={'User-Agent': 'Mozilla/5.0'}).text
-            soup = BeautifulSoup(html_text,'html.parser')
-            total_teams = soup.findAll(name='td', attrs={'class':'place'})[-1].text
-            embed.add_field(name=name, value='** **', inline=True)
-            embed.add_field(name=f'{rank}/{total_teams}', value='** **', inline=True)
-            embed.add_field(name=points, value='** **', inline=True)
+        for history_year,ctf_href_year in zip(history[::-1],ctf_href[::-1]):
+            for (rank,name,_,points),href in zip(history_year[::-1],ctf_href_year[::-1]):
+                html_text = requests.get('https://ctftime.org'+href, headers={'User-Agent': 'Mozilla/5.0'}).text
+                soup = BeautifulSoup(html_text,'html.parser')
+                total_teams = soup.findAll(name='td', attrs={'class':'place'})[-1].text
+                embed.add_field(name=name, value='** **', inline=True)
+                embed.add_field(name=f'{rank}/{total_teams}', value='** **', inline=True)
+                embed.add_field(name=points, value='** **', inline=True)
 
         await infos_channel.send(embed=embed)
 
