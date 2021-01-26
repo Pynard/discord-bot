@@ -25,5 +25,11 @@ gg_dict =   [   [   "GG ! Enfin un qui ne fait pas partie de ceux qui ne sont ri
                     "https://tenor.com/view/benoit-hamon-hamon-generation-s-kebab-kebabs-gif-14163530" ],
 
                 [   "Ah ! OUI ! Le flag était évident...",
-                    "https://tenor.com/view/oui-oue-eddy-malou-interview-gif-5034006" ]
+                    "https://tenor.com/view/oui-oue-eddy-malou-interview-gif-5034006" ],
+
+                [	"Tu es donc meilleur que la mascotte de la team ! Etonnant...",
+                    "https://tenor.com/view/yaa-monkey-work-monday-friday-gif-8088182" ],
+
+                [ 	"Mais quel boss... Aller tu as bien mérité une petite bière pour fêter ça !",
+                    "https://tenor.com/view/stone-cold-steve-austin-drink-beer-drinks-beer-drinking-beer-wwe-gif-14678150" ]
             ]
