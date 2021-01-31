@@ -2,6 +2,16 @@
 
 Bot discord pour CTF et centralisation de flag de la **Pynard** team
 
+# Installation
+
+Work with [python 3]
+```bash
+pip install virtualenv
+virtualenv -p /usr/bin/python3 venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
 ## Liste des commandes
 | Commande | Description | Usage |
 |----------|-------------|-------|
