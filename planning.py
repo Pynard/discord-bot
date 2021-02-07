@@ -23,7 +23,7 @@ async def update_planning():
             for title,text in infos.items():
                 await planning_channel.send(title)
                 await planning_channel.send(text)
-            await planning_channel.send('```ini\n[ Votez pour moi ! ]\n```')
+            await planning_channel.send('```ini\n[ Votez pour moi ! ] (PAS ENCORE IMPLEMENTER)\n```')
             await planning_channel.send('** **')
             await planning_channel.send('** **')
             await planning_channel.send('** **')
