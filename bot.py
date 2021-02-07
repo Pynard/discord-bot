@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from global_var import *
 from team import update_team_info
+from planning import update_planning
 from command import Command
 from command.timer import update_timers as timer_update_timers
 from command.ctf.utils import update_timers as ctf_update_timers
@@ -18,6 +19,7 @@ async def on_ready():
     client.loop.create_task(timer_update_timers())
     client.loop.create_task(ctf_update_timers())
     client.loop.create_task(update_team_info())
+    client.loop.create_task(update_planning())
     client.loop.create_task(manage_goulag_music())
 
 @client.event
