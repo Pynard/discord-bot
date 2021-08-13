@@ -35,7 +35,12 @@ def dl_planning():
     return json.loads(html_text)
 
 def load_planning(name):
-    return pickle.load(open(g_data_dir+f'/planning','rb'))
+    try:
+        data = pickle.load(open(g_data_dir+f'/planning','rb'))
+    except FileNotFoundError:
+        data = {}
+    return data
+
 
 def save_planning(name,content):
     pickle.dump(content,open(g_data_dir+f'/planning','wb'))

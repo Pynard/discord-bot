@@ -14,16 +14,19 @@ async def cmd(message):
     'ctf create <nom> https://ctftime.org/event/<event>\nctf dump <nom>'
 
     pattern_url = 'https://ctftime\.org/event/\d+' 
-    params = re.search(f'{g_bot_token}ctf\s+(create|dump)\s+(\S+)\s+({pattern_url})',message.content)
+    params = re.search(f'{g_bot_token}ctf\s+(create|dump)\s+(\S+)\s*({pattern_url})?',message.content)
 
     if not params:
         return 'Tes paramètres sont chelous...'
 
     action = params.group(1)
     name = params.group(2).upper()
-    url = params.group(3)
 
     if action == 'create':
+        url = params.group(3)
+        if url is None:
+            return "Tu dois rentrer un URL..."
+
         ctf_data, error = await create_category(name)
         if not ctf_data:
             return error
@@ -33,7 +36,7 @@ async def cmd(message):
         save_ctf(name,ctf_data)
 
     elif action == 'dump':
-        dump(message)
+        await dump(message)
 
 @error
 async def add_challenge(message):
@@ -48,7 +51,7 @@ async def add_challenge(message):
 
     ctf_data = load_ctf(message.channel.category)
 
-    name = param.group(1)
+    name = param.group(1).lower()
     guild = client.guilds[0]
     category = client.get_channel(ctf_data['category'])
     ctf_data['challenge'][name] = { 'id': (await guild.create_text_channel(name,category=category)).id, 'flag':None }
